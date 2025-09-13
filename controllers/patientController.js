@@ -1,5 +1,8 @@
 const axios = require('axios');
 const Patient = require('../models/Patient');
+// Use environment variable or fallback to localhost for local development
+const PREDICTION_API_URL = process.env.PREDICTION_API_URL || 'http://localhost:5000';
+
 
 
 
@@ -34,8 +37,8 @@ exports.submitPatientData = async (req, res) => {
     };
 
     // Call Flask prediction API
-    const response = await axios.post('http://localhost:5000/predict', apiPayload);
-
+    // const response = await axios.post('http://localhost:5000/predict', apiPayload);
+       const response = await axios.post(`${PREDICTION_API_URL}/predict`, apiPayload);
     patientData.readmitted = response.data.readmitted;
 
     if (response.data.readmitted === "yes") {
